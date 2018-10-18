@@ -1,15 +1,11 @@
 package com.jekoding.notes.ui.main
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.jekoding.notes.R
 import com.jekoding.notes.ui.noteslist.NotesListFragment
-import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity() {
-
-    @Inject
-    lateinit var abcKey: BooleanKey
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,13 +16,5 @@ class MainActivity : DaggerAppCompatActivity() {
                     .replace(R.id.container, NotesListFragment.newInstance())
                     .commitNow()
         }
-
-        println("value of abcKey: ${abcKey.value}")
     }
-
 }
-
-class BooleanKey(
-        val name: String,
-        val value: Boolean
-)
