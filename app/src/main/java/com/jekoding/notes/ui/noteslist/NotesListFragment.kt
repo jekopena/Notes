@@ -1,4 +1,4 @@
-package com.jekoding.notes.ui.main
+package com.jekoding.notes.ui.noteslist
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.jekoding.notes.R
 
-class MainFragment : Fragment() {
+class NotesListFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = NotesListFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: NotesListViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -23,7 +23,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(NotesListViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

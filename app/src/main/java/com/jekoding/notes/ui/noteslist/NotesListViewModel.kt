@@ -1,7 +1,7 @@
-package com.jekoding.notes.ui.main
+package com.jekoding.notes.ui.noteslist
 
 import android.arch.lifecycle.ViewModel
 
-class MainViewModel : ViewModel() {
+class NotesListViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

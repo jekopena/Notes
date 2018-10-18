@@ -1,4 +1,4 @@
-package com.jekoding.notes
+package com.jekoding.notes.ui.main
 
 import org.junit.Test
 
