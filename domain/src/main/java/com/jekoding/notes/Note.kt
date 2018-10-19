@@ -1,3 +1,3 @@
-package com.jekoding.notes.model
+package com.jekoding.notes
 
 data class Note(val title: String)

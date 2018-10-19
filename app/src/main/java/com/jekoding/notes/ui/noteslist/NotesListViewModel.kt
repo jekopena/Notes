@@ -1,9 +1,15 @@
 package com.jekoding.notes.ui.noteslist
 
 import android.arch.lifecycle.ViewModel
-import com.jekoding.notes.model.Note
+import com.jekoding.notes.GetNotes
+import com.jekoding.notes.Note
 
-class NotesListViewModel : ViewModel() {
-    val notes = arrayListOf<Note>(Note("katmandu"), Note("Srilanka"))
+class NotesListViewModel(
+        private val getNotes: GetNotes
+) : ViewModel() {
+    val notes = arrayListOf<Note>()
 
+    fun loadNotes() {
+        notes.addAll(getNotes())
+    }
 }

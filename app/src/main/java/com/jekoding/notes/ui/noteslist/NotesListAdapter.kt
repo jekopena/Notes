@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jekoding.notes.R
-import com.jekoding.notes.model.Note
+import com.jekoding.notes.Note
 import kotlinx.android.synthetic.main.note_row.view.*
 
-class NotesListAdapter(val notes: ArrayList<Note>, private val listener: (Note) -> Unit) :
+class NotesListAdapter(val notes: List<Note>, private val listener: (Note) -> Unit) :
         RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>() {
 
     class NotesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
