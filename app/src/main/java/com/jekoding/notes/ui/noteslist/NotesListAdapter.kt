@@ -8,8 +8,10 @@ import com.jekoding.notes.R
 import com.jekoding.notes.Note
 import kotlinx.android.synthetic.main.note_row.view.*
 
-class NotesListAdapter(val notes: List<Note>, private val listener: (Note) -> Unit) :
+class NotesListAdapter(private val listener: (Note) -> Unit) :
         RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>() {
+
+    private val notes = arrayListOf<Note>()
 
     class NotesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Note, listener: (Note) -> Unit) = with(itemView) {
@@ -29,4 +31,11 @@ class NotesListAdapter(val notes: List<Note>, private val listener: (Note) -> Un
     }
 
     override fun getItemCount() = notes.size
+
+    fun setNotes(newNotes: List<Note>?) {
+        this.notes.clear()
+        if (newNotes != null) {
+            this.notes.addAll(newNotes)
+        }
+    }
 }

@@ -1,5 +1,8 @@
 package com.jekoding.notes
 
-class GetNotes(private val notesRepository: NotesRepository) {
-    operator fun invoke(): List<Note> = notesRepository.getNotes()
+import com.jekoding.notes.core.UseCase
+import com.jekoding.notes.core.UseCase.None
+
+class GetNotes(private val notesRepository: NotesRepository) : UseCase<List<Note>, None>() {
+    override suspend fun run(params: None) = notesRepository.getNotes()
 }
