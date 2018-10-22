@@ -1,23 +1,24 @@
 package com.jekoding.notes.ui.noteslist
 
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import com.jekoding.notes.GetNotes
-import com.jekoding.notes.Note
 import com.jekoding.notes.core.UseCase
-import com.jekoding.notes.ui.core.BaseViewModel
+import com.jekoding.notes.model.NoteView
 
 class NotesListViewModel(
-        private val getNotes: GetNotes
-) : BaseViewModel() {
-    val notes: MutableLiveData<List<Note>> = MutableLiveData()
+    private val getNotes: GetNotes
+) : ViewModel() {
+    val notes: MutableLiveData<List<NoteView>> = MutableLiveData()
+    val failure: MutableLiveData<String> = MutableLiveData()
 
     fun loadNotes() {
         getNotes(UseCase.None()) { result ->
             result.onFailure {
-                // TODO handle error
+                failure.value = it.message
             }
             result.onSuccess {
-                notes.value = it
+                notes.value = it.map { note -> NoteView.from(note) }
             }
         }
     }

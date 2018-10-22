@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jekoding.notes.R
-import com.jekoding.notes.Note
+import com.jekoding.notes.model.NoteView
 import kotlinx.android.synthetic.main.note_row.view.*
 
-class NotesListAdapter(private val listener: (Note) -> Unit) :
+class NotesListAdapter(private val listener: (NoteView) -> Unit) :
         RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>() {
 
-    private val notes = arrayListOf<Note>()
+    private val notes = arrayListOf<NoteView>()
 
     class NotesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: Note, listener: (Note) -> Unit) = with(itemView) {
+        fun bind(item: NoteView, listener: (NoteView) -> Unit) = with(itemView) {
             tvTitle.text = item.title
             setOnClickListener { listener(item) }
         }
@@ -32,7 +32,7 @@ class NotesListAdapter(private val listener: (Note) -> Unit) :
 
     override fun getItemCount() = notes.size
 
-    fun setNotes(newNotes: List<Note>?) {
+    fun setNotes(newNotes: List<NoteView>?) {
         this.notes.clear()
         if (newNotes != null) {
             this.notes.addAll(newNotes)

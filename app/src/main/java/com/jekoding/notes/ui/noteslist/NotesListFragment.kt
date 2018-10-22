@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.jekoding.notes.Note
 import com.jekoding.notes.R
+import com.jekoding.notes.model.NoteView
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -27,10 +27,7 @@ class NotesListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.notes.observe(this, Observer<List<Note>> { notes ->
-            listAdapter.setNotes(notes)
-            listAdapter.notifyDataSetChanged()
-        })
+        setViewModelObservers()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +38,25 @@ class NotesListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        rvNotesList.setHasFixedSize(true)
-        rvNotesList.layoutManager = LinearLayoutManager(activity)
-        rvNotesList.adapter = listAdapter
+        initLayoutResources()
 
         viewModel.loadNotes()
     }
 
+    private fun setViewModelObservers() {
+        viewModel.notes.observe(this, Observer<List<NoteView>> {
+            listAdapter.setNotes(it)
+            listAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.failure.observe(this, Observer {
+            Toast.makeText(activity, "ERROR: $it", Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun initLayoutResources() {
+        rvNotesList.setHasFixedSize(true)
+        rvNotesList.layoutManager = LinearLayoutManager(activity)
+        rvNotesList.adapter = listAdapter
+    }
 }
