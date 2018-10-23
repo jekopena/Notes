@@ -1,9 +1,9 @@
 package com.jekoding.notes.ui.noteslist
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.jekoding.notes.R
 import com.jekoding.notes.model.NoteView
 import kotlinx.android.synthetic.main.note_row.view.*
@@ -13,7 +13,8 @@ class NotesListAdapter(private val listener: (NoteView) -> Unit) :
 
     private val notes = arrayListOf<NoteView>()
 
-    class NotesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NotesListViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
         fun bind(item: NoteView, listener: (NoteView) -> Unit) = with(itemView) {
             tvTitle.text = item.title
             setOnClickListener { listener(item) }

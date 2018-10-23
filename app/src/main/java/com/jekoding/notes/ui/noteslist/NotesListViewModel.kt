@@ -1,7 +1,7 @@
 package com.jekoding.notes.ui.noteslist
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.jekoding.notes.GetNotes
 import com.jekoding.notes.core.UseCase
 import com.jekoding.notes.model.NoteView
