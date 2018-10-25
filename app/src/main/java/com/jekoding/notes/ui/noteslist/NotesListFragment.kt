@@ -40,18 +40,18 @@ class NotesListFragment : Fragment() {
 
         initLayoutResources()
 
-        notesListViewModel.loadNotes()
+//        notesListViewModel.loadNotes()
     }
 
     private fun setViewModelObservers() {
-        notesListViewModel.notes.observe(this, Observer<List<NoteView>> {
+        notesListViewModel.noteViews.observe(this, Observer<List<NoteView>> {
             listAdapter.setNotes(it)
             listAdapter.notifyDataSetChanged()
         })
 
-        notesListViewModel.failure.observe(this, Observer {
-            Toast.makeText(activity, "ERROR: $it", Toast.LENGTH_LONG).show()
-        })
+//        notesListViewModel.failure.observe(this, Observer {
+//            Toast.makeText(activity, "ERROR: $it", Toast.LENGTH_LONG).show()
+//        })
     }
 
     private fun initLayoutResources() {
