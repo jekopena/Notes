@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jekoding.notes.R
-import com.jekoding.notes.model.NoteView
+import com.jekoding.notes.models.NoteView
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,8 +39,6 @@ class NotesListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initLayoutResources()
-
-//        notesListViewModel.loadNotes()
     }
 
     private fun setViewModelObservers() {
@@ -48,10 +46,6 @@ class NotesListFragment : Fragment() {
             listAdapter.setNotes(it)
             listAdapter.notifyDataSetChanged()
         })
-
-//        notesListViewModel.failure.observe(this, Observer {
-//            Toast.makeText(activity, "ERROR: $it", Toast.LENGTH_LONG).show()
-//        })
     }
 
     private fun initLayoutResources() {

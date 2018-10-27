@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jekoding.notes.R
-import com.jekoding.notes.model.NoteView
+import com.jekoding.notes.models.NoteView
 import kotlinx.android.synthetic.main.note_row.view.*
 
 class NotesListAdapter(private val listener: (NoteView) -> Unit) :

@@ -1,4 +1,4 @@
-package com.jekoding.notes.framework.database
+package com.jekoding.notes.database.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -6,7 +6,8 @@ import androidx.room.Query
 
 
 @Dao
-interface NoteDao : BaseDao<NoteEntity> {
+interface NoteRoomDao :
+    BaseDao<NoteEntity> {
     @Query("SELECT * FROM noteentity")
     fun getAllNotes(): LiveData<List<NoteEntity>>
 

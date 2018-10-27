@@ -22,8 +22,6 @@ android {
 }
 
 dependencies {
-    implementation project(':usecases')
-    implementation project(':data')
     implementation project(':domain')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -44,7 +42,7 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_version"
     testImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "org.koin:koin-test:$koin_version"
-
+    
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -54,5 +52,4 @@ dependencies {
 
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 }

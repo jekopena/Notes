@@ -3,10 +3,11 @@ package com.jekoding.notes.di
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.jekoding.notes.GetNotes
+import com.jekoding.notes.NotesDatasource
 import com.jekoding.notes.NotesRepository
-import com.jekoding.notes.framework.database.AppDatabase
-import com.jekoding.notes.framework.database.NoteEntity
+import com.jekoding.notes.database.NoteDao
+import com.jekoding.notes.database.room.AppDatabase
+import com.jekoding.notes.database.room.NoteEntity
 import com.jekoding.notes.ui.noteslist.NotesListViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -16,14 +17,14 @@ import org.koin.dsl.module.module
 
 
 val appModule = module {
-    lateinit var appDatabase : AppDatabase
+    lateinit var appDatabase: AppDatabase
 
-    single { NotesRepository() }
+    single { NotesRepository(get("noteDao")) }
 
-    single { GetNotes(get()) }
+    single(name = "noteDao") { NoteDao(get()) as NotesDatasource }
 
     single {
-         appDatabase = Room.databaseBuilder(
+        appDatabase = Room.databaseBuilder(
             androidApplication(),
             AppDatabase::class.java,
             "notesDatabase"
@@ -32,8 +33,12 @@ val appModule = module {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     GlobalScope.launch {
-                        appDatabase.noteDao().insert(NoteEntity(1,"Note 1"),
-                            NoteEntity(2, "Note  2"))
+                        appDatabase.noteRoomDao().insert(
+                            arrayListOf(
+                                NoteEntity(1, "Note 1"),
+                                NoteEntity(2, "Note  2")
+                            )
+                        )
                     }
                 }
             })
@@ -42,5 +47,5 @@ val appModule = module {
         appDatabase
     }
 
-    viewModel { NotesListViewModel(get(), get()) }
+    viewModel { NotesListViewModel(get()) }
 }
