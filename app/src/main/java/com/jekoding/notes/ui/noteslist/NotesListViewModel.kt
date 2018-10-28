@@ -13,5 +13,5 @@ class NotesListViewModel(
 
     private var notes: LiveData<List<NoteEntity>> = appDatabase.noteRoomDao().getAllNotes()
     val noteViews: LiveData<List<NoteView>> =
-        Transformations.map(notes) { NoteView.fromEntities(it) }
+        Transformations.map(notes) { NoteView.from(NoteEntity.parseToNotes(it)) }
 }

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 28
@@ -33,6 +34,18 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-coroutines:0.10.5'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
+    // Navigation Component
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    // Navigation Test helpers
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
+    androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
+
+    // Work Manager
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
+    // Work Manager Test helpers
+    androidTestImplementation "android.arch.work:work-testing:$work_version"
+
     // Android KTX
     implementation 'androidx.core:core-ktx:1.0.0'
 
@@ -42,7 +55,7 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_version"
     testImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "org.koin:koin-test:$koin_version"
-    
+
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
