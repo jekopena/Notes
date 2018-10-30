@@ -8,6 +8,7 @@ import com.jekoding.notes.NotesRepository
 import com.jekoding.notes.database.NoteDao
 import com.jekoding.notes.database.room.AppDatabase
 import com.jekoding.notes.database.room.NoteEntity
+import com.jekoding.notes.ui.editNote.EditNoteViewModel
 import com.jekoding.notes.ui.noteslist.NotesListViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,24 +29,12 @@ val appModule = module {
             androidApplication(),
             AppDatabase::class.java,
             "notesDatabase"
-        )
-            .addCallback(object : RoomDatabase.Callback() {
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    GlobalScope.launch {
-                        appDatabase.noteRoomDao().insert(
-                            arrayListOf(
-                                NoteEntity(1, "Note 1"),
-                                NoteEntity(2, "Note  2")
-                            )
-                        )
-                    }
-                }
-            })
-            .build()
+        ).build()
 
         appDatabase
     }
 
     viewModel { NotesListViewModel(get()) }
+
+    viewModel { EditNoteViewModel(get()) }
 }

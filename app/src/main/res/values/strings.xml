@@ -2,6 +2,12 @@
     <string name="app_name">Notes</string>
     <string name="mainfragment">MainFragment</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_note_title">Title</string>
+    <string name="hint_note_title">A Note title</string>
+    <string name="label_note">Note</string>
+    <string name="hint_note_text">Write a Note</string>
+    <string name="label_tag">Tag</string>
+    <string name="hint_note_tag">Tag (0, 1, 2)</string>
+    <string name="label_reminder">Reminder</string>
+    <string name="hint_note_reminder">Reminder</string>
 </resources>

@@ -23,10 +23,6 @@ class NotesListFragment : Fragment() {
         Toast.makeText(activity, "click ${it.title}", Toast.LENGTH_SHORT).show()
     }
 
-    companion object {
-        fun newInstance() = NotesListFragment()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
