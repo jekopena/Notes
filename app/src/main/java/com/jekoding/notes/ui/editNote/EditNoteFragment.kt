@@ -4,29 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.jekoding.notes.R
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.jekoding.notes.databinding.EditNoteFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditNoteFragment : Fragment() {
 
-    private val editNoteViewModel: EditNoteViewModel by viewModel()
+    private val viewModel: EditNoteViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setViewModelObservers()
+        setupViewModel()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.edit_note_fragment, container, false)
+        val binding = EditNoteFragmentBinding.inflate(layoutInflater, container, false)
+        binding.setLifecycleOwner(this)
+        binding.viewmodel = viewModel
+        return binding.root
     }
 
+     private fun setupViewModel() {
+        viewModel.failure.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { throwable ->
+                Toast.makeText(activity, "${throwable.message}", Toast.LENGTH_SHORT).show()
+            }
 
-    private fun setViewModelObservers() {
+        })
 
+        viewModel.navigateBack.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                findNavController().popBackStack()
+            }
+        })
     }
 }

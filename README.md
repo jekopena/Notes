@@ -9,7 +9,7 @@ my daily job. Here is a list of what I intend to cover:
 - [x] Clean Architecture
 - [x] ViewModels
 - [x] LiveData
-- [ ] Databinding
+- [x] Databinding
 - [x] Room
 - [ ] Retrofit
 - [x] Navigation Component

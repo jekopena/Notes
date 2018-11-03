@@ -3,14 +3,17 @@ package com.jekoding.notes.models
 import java.util.*
 
 data class NoteView(
-    val id: Long?,
-    val title: String?,
-    val text: String,
-    val photo: String?,
-    val tag: Tag?,
-    val isPinned: Boolean,
-    val reminder: Date?
+    var id: Long? = null,
+    var title: String? = null,
+    var text: String = "",
+    var photo: String? = null,
+    var tag: Tag? = null,
+    var isPinned: Boolean = false,
+    var reminder: Date? = null
 ) {
+    init {
+
+    }
     companion object {
         fun from(notes: List<Note>): List<NoteView> {
             return notes.map { NoteView.from(it) }
@@ -26,6 +29,22 @@ data class NoteView(
                 note.isPinned,
                 note.reminder
             )
+        }
+
+        fun parseToNote(noteView: NoteView): Note {
+            return Note(
+                noteView.id,
+                noteView.title,
+                noteView.text,
+                noteView.photo,
+                noteView.tag,
+                noteView.isPinned,
+                noteView.reminder
+            )
+        }
+
+        fun parseToNotes(noteViews: List<NoteView>): List<Note> {
+            return noteViews.map { parseToNote(it) }
         }
     }
 }

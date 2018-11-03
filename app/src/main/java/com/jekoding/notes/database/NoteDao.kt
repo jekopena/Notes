@@ -7,8 +7,8 @@ import com.jekoding.notes.models.Note
 
 class NoteDao(private val appDatabase: AppDatabase) : NotesDatasource {
 
-    override fun insert(notes: List<Note>) {
-        appDatabase.noteRoomDao().insert(notes.map { NoteEntity.from(it) })
+    override fun insert(note: Note) : Long {
+        return appDatabase.noteRoomDao().insert(NoteEntity.from(note))
     }
 
     override fun delete(note: Note) {

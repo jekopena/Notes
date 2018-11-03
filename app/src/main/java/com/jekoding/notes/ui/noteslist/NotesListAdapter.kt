@@ -17,6 +17,7 @@ class NotesListAdapter(private val listener: (NoteView) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(item: NoteView, listener: (NoteView) -> Unit) = with(itemView) {
             tvTitle.text = item.title
+            tvText.text = item.text
             setOnClickListener { listener(item) }
         }
     }
