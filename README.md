@@ -54,6 +54,6 @@ my daily job. Here is a list of what I intend to cover:
 
 ## Third party libraries
 - [x] DI: Koin
-- [ ] leak canary
+- [x] Leak Canary
 - [ ] Images: Glide/Picasso
 - [ ] AndroidDevMetrics
