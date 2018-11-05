@@ -18,9 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NotesListFragment : Fragment() {
 
     private val viewModel: NotesListViewModel by viewModel()
-    private val listAdapter = NotesListAdapter {
-        Toast.makeText(activity, "click ${it.title}", Toast.LENGTH_SHORT).show()
-    }
+    private val listAdapter = NotesListAdapter { onClickList(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +44,7 @@ class NotesListFragment : Fragment() {
 
     private fun setupViewModel() {
         viewModel.noteViews.observe(this, Observer<List<NoteView>> {
-            listAdapter.setNotes(it)
-            listAdapter.notifyDataSetChanged()
+            listAdapter.submitList(it)
         })
 
         viewModel.navigateToAddNote.observe(this, Observer {
@@ -61,5 +58,9 @@ class NotesListFragment : Fragment() {
         rvNotesList.setHasFixedSize(true)
         rvNotesList.layoutManager = LinearLayoutManager(activity)
         rvNotesList.adapter = listAdapter
+    }
+
+    private fun onClickList(noteView: NoteView) {
+        Toast.makeText(activity, "click ${noteView.title}", Toast.LENGTH_SHORT).show()
     }
 }
