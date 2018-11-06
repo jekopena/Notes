@@ -36,12 +36,15 @@ my daily job. Here is a list of what I intend to cover:
 - [ ] Google Maps
 - [ ] ActionBar Menus
 - [ ] Localization
+- [ ] Proguard
 
 ## OE
 - [ ] CI: TravisCI
-- [ ] Google Metrics
-- [ ] Google Console
-- [ ] A/B Testing
+- [ ] Google Analytics
+- [ ] Firebase Crashlytics
+- [ ] Firebase Performance Monitoring
+- [ ] Firebase Test Lab
+- [ ] Firebase A/B Testing
 
 ## Testing
 - [ ] Espresso
@@ -49,8 +52,10 @@ my daily job. Here is a list of what I intend to cover:
 - [ ] Profiling
 
 ## Server Cloud
-- [ ] Firebase storage
-- [ ] Login auth
+- [ ] Firebase Realtime Database
+- [ ] Firebase Storage
+- [ ] Firebase Authentication
+- [ ] Firebase Messaging
 
 ## Third party libraries
 - [x] DI: Koin
