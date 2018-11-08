@@ -24,6 +24,10 @@ class NotesListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setupViewModel()
+
+        if(savedInstanceState == null) {
+            viewModel.loadNotes()
+        }
     }
 
     override fun onCreateView(
@@ -43,6 +47,12 @@ class NotesListFragment : Fragment() {
     }
 
     private fun setupViewModel() {
+        viewModel.failure.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { throwable ->
+                Toast.makeText(activity, "${throwable.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         viewModel.noteViews.observe(this, Observer<List<NoteView>> {
             listAdapter.submitList(it)
         })

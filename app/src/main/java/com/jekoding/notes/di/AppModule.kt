@@ -1,12 +1,16 @@
 package com.jekoding.notes.di
 
 import androidx.room.Room
+import com.google.firebase.database.FirebaseDatabase
 import com.jekoding.notes.NotesDatasource
+import com.jekoding.notes.NotesRemoteDatasource
 import com.jekoding.notes.NotesRepository
 import com.jekoding.notes.database.NoteDao
+import com.jekoding.notes.database.NoteRemoteDao
 import com.jekoding.notes.database.room.AppDatabase
 import com.jekoding.notes.ui.editNote.EditNoteViewModel
 import com.jekoding.notes.ui.noteslist.NotesListViewModel
+import com.jekoding.notes.usecases.LoadNotes
 import com.jekoding.notes.usecases.SaveNote
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.ext.koin.viewModel
@@ -16,9 +20,13 @@ import org.koin.dsl.module.module
 val appModule = module {
     lateinit var appDatabase: AppDatabase
 
-    single { NotesRepository(get("noteDao")) }
+    single { FirebaseDatabase.getInstance() }
+
+    single { NotesRepository(get("noteDao"), get("noteRemoteDao")) }
 
     single(name = "noteDao") { NoteDao(get()) as NotesDatasource }
+
+    single(name = "noteRemoteDao") { NoteRemoteDao(get()) as NotesRemoteDatasource}
 
     single {
         appDatabase = Room.databaseBuilder(
@@ -32,7 +40,9 @@ val appModule = module {
 
     single { SaveNote(get()) }
 
-    viewModel { NotesListViewModel(get()) }
+    single { LoadNotes(get())}
+
+    viewModel { NotesListViewModel(get(), get()) }
 
     viewModel { EditNoteViewModel(get()) }
 }

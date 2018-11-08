@@ -3,11 +3,11 @@ package com.jekoding.notes.models
 import java.util.*
 
 data class Note(
-    val id: Long?,
-    val title: String?,
-    val text: String,
-    val photo: String?,
-    val tag: Tag?,
-    val isPinned: Boolean,
-    val reminder: Date?
+    val id: Long? = null,
+    val title: String? = null,
+    val text: String = "",
+    val photo: String? = null,
+    val tag: Tag? = null,
+    val isPinned: Boolean = false,
+    val reminder: Date? = null
 )
