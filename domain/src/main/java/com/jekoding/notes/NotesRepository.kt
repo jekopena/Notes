@@ -11,6 +11,9 @@ class NotesRepository(
     fun saveNote(note: Note): Result<Long> {
         return try {
             val noteId = notesDatasource.insert(note)
+            val noteWithId  = note.copy(id = noteId)
+            notesRemoteDatasource.saveNote(noteWithId)
+
             Result.success(noteId)
         } catch (e: Exception) {
             Result.failure(e)

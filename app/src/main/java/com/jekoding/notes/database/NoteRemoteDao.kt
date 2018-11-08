@@ -9,9 +9,15 @@ import com.jekoding.notes.core.RemoteCallback
 import com.jekoding.notes.models.Note
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class NoteRemoteDao(val remoteDatabase: FirebaseDatabase) : NotesRemoteDatasource {
     private val notesRef = "notes"
+
+    override fun saveNote(note: Note) {
+        val key = remoteDatabase.getReference(notesRef).push().key ?: throw IOException()
+        remoteDatabase.getReference(notesRef).child(key).setValue(note)
+    }
 
     override fun getAllNotes(remoteCallback: RemoteCallback<List<Note>>) {
         remoteDatabase.getReference(notesRef)
