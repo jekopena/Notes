@@ -25,7 +25,7 @@ class NotesListFragment : Fragment() {
 
         setupViewModel()
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             viewModel.loadNotes()
         }
     }
@@ -49,7 +49,11 @@ class NotesListFragment : Fragment() {
     private fun setupViewModel() {
         viewModel.failure.observe(this, Observer {
             it.getContentIfNotHandled()?.let { throwable ->
-                Toast.makeText(activity, "${throwable.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity!!.applicationContext,
+                    "${throwable.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 
@@ -71,6 +75,7 @@ class NotesListFragment : Fragment() {
     }
 
     private fun onClickList(noteView: NoteView) {
-        Toast.makeText(activity, "click ${noteView.title}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity!!.applicationContext, "click ${noteView.title}", Toast.LENGTH_SHORT)
+            .show()
     }
 }

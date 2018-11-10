@@ -34,7 +34,7 @@ class EditNoteFragment : Fragment() {
      private fun setupViewModel() {
         viewModel.failure.observe(this, Observer {
             it.getContentIfNotHandled()?.let { throwable ->
-                Toast.makeText(activity, "${throwable.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity!!.applicationContext, "${throwable.message}", Toast.LENGTH_SHORT).show()
             }
 
         })

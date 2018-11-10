@@ -33,7 +33,7 @@ class NotesListViewModel(
             }
 
             override fun onFailure(error: Throwable) {
-                failure.value = Event(error)
+                failure.postValue(Event(error))
             }
 
         })
