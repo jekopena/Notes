@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jekoding.notes.R
-import com.jekoding.notes.databinding.NotesListFragmentBinding
 import com.jekoding.notes.models.NoteView
 import kotlinx.android.synthetic.main.notes_list_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +17,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NotesListFragment : Fragment() {
 
     private val viewModel: NotesListViewModel by viewModel()
-    private val listAdapter = NotesListAdapter { onClickList(it) }
+    private val listAdapter = NotesListAdapter {
+        Toast.makeText(activity!!.applicationContext, "click ${it.title}", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +35,7 @@ class NotesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = NotesListFragmentBinding.inflate(layoutInflater, container, false)
-        binding.setLifecycleOwner(this)
-        binding.viewmodel = viewModel
-        return binding.root
+        return inflater.inflate(R.layout.notes_list_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,7 +56,8 @@ class NotesListFragment : Fragment() {
         })
 
         viewModel.noteViews.observe(this, Observer<List<NoteView>> {
-            listAdapter.submitList(it)
+            listAdapter.setNotes(it)
+            listAdapter.notifyDataSetChanged()
         })
 
         viewModel.navigateToAddNote.observe(this, Observer {
@@ -72,10 +71,10 @@ class NotesListFragment : Fragment() {
         rvNotesList.setHasFixedSize(true)
         rvNotesList.layoutManager = LinearLayoutManager(activity)
         rvNotesList.adapter = listAdapter
+
+        btAddNote.setOnClickListener {
+            viewModel.addNoteClick()
+        }
     }
 
-    private fun onClickList(noteView: NoteView) {
-        Toast.makeText(activity!!.applicationContext, "click ${noteView.title}", Toast.LENGTH_SHORT)
-            .show()
-    }
 }

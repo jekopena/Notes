@@ -1,22 +1,43 @@
 package com.jekoding.notes.ui.noteslist
 
-import androidx.recyclerview.widget.DiffUtil
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.jekoding.notes.R
-import com.jekoding.notes.framework.DataBindingAdapter
 import com.jekoding.notes.models.NoteView
+import kotlinx.android.synthetic.main.note_row.view.*
 
-class NotesListAdapter(listener: (NoteView) -> Unit) :
-    DataBindingAdapter<NoteView>(listener, DiffCallback()) {
+class NotesListAdapter(private val listener: (NoteView) -> Unit) :
+        RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder>() {
 
-    class DiffCallback : DiffUtil.ItemCallback<NoteView>() {
-        override fun areItemsTheSame(oldItem: NoteView, newItem: NoteView): Boolean {
-            return oldItem.id == newItem.id
-        }
+    private val notes = arrayListOf<NoteView>()
 
-        override fun areContentsTheSame(oldItem: NoteView, newItem: NoteView): Boolean {
-            return oldItem.title == newItem.title && oldItem.text == newItem.text
+    class NotesListViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        fun bind(item: NoteView, listener: (NoteView) -> Unit) = with(itemView) {
+            tvTitle.text = item.title
+            tvText.text = item.text
+            setOnClickListener { listener(item) }
         }
     }
 
-    override fun getItemViewType(position: Int) = R.layout.note_row
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesListViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.note_row, parent, false)
+        return NotesListViewHolder(view)
+    }
+
+
+    override fun onBindViewHolder(holder: NotesListViewHolder, position: Int) {
+        return holder.bind(notes[position], listener)
+    }
+
+    override fun getItemCount() = notes.size
+
+    fun setNotes(newNotes: List<NoteView>?) {
+        this.notes.clear()
+        if (newNotes != null) {
+            this.notes.addAll(newNotes)
+        }
+    }
 }
