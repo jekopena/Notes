@@ -18,8 +18,6 @@ import org.koin.dsl.module.module
 
 
 val appModule = module {
-    lateinit var appDatabase: AppDatabase
-
     single { FirebaseDatabase.getInstance() }
 
     single { NotesRepository(get("noteDao"), get("noteRemoteDao")) }
@@ -29,13 +27,11 @@ val appModule = module {
     single(name = "noteRemoteDao") { NoteRemoteDao(get()) as NotesRemoteDatasource}
 
     single {
-        appDatabase = Room.databaseBuilder(
+        Room.databaseBuilder(
             androidApplication(),
             AppDatabase::class.java,
             "notesDatabase"
         ).build()
-
-        appDatabase
     }
 
     single { SaveNote(get()) }
