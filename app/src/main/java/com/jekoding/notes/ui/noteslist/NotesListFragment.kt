@@ -13,6 +13,7 @@ import com.jekoding.notes.R
 import com.jekoding.notes.databinding.NotesListFragmentBinding
 import com.jekoding.notes.models.NoteView
 import kotlinx.android.synthetic.main.notes_list_fragment.*
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotesListFragment : Fragment() {
@@ -49,11 +50,7 @@ class NotesListFragment : Fragment() {
     private fun setupViewModel() {
         viewModel.failure.observe(this, Observer {
             it.getContentIfNotHandled()?.let { throwable ->
-                Toast.makeText(
-                    activity!!.applicationContext,
-                    "${throwable.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                activity?.application?.toast("${throwable.message}")
             }
         })
 
@@ -75,7 +72,6 @@ class NotesListFragment : Fragment() {
     }
 
     private fun onClickList(noteView: NoteView) {
-        Toast.makeText(activity!!.applicationContext, "click ${noteView.title}", Toast.LENGTH_SHORT)
-            .show()
+        activity?.application?.toast("click ${noteView.title}")
     }
 }

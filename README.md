@@ -52,9 +52,9 @@ my daily job. Here is a list of what I intend to cover:
 - [ ] Profiling
 
 ## Server Cloud
+- [x] Firebase Authentication
 - [x] Firebase Realtime Database
 - [ ] Firebase Storage
-- [ ] Firebase Authentication
 - [ ] Firebase Messaging
 
 ## Third party libraries

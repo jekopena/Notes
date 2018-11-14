@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jekoding.notes.databinding.EditNoteFragmentBinding
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditNoteFragment : Fragment() {
@@ -34,7 +35,7 @@ class EditNoteFragment : Fragment() {
      private fun setupViewModel() {
         viewModel.failure.observe(this, Observer {
             it.getContentIfNotHandled()?.let { throwable ->
-                Toast.makeText(activity!!.applicationContext, "${throwable.message}", Toast.LENGTH_SHORT).show()
+                activity?.application?.toast("${throwable.message}")
             }
 
         })

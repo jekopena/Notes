@@ -11,4 +11,7 @@
     <string name="label_reminder">Reminder</string>
     <string name="hint_note_reminder">Reminder</string>
     <string name="label_save">Save</string>
+    <string name="login_error_title">Login error</string>
+    <string name="login_required_title">Login required</string>
+    <string name="login_required_message">You have to log in to use the app</string>
 </resources>
