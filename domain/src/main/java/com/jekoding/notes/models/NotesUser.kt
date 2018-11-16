@@ -1,3 +1,7 @@
 package com.jekoding.notes.models
 
-data class NotesUser(val name: String?)
+data class NotesUser(
+    val uid: String,
+    val name: String?,
+    val email: String?
+)

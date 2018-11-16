@@ -27,7 +27,7 @@ val appModule = module {
 
     single(name = "noteDao") { NoteDao(get()) as NotesDatasource }
 
-    single(name = "noteRemoteDao") { NoteRemoteDao(get()) as NotesRemoteDatasource}
+    single(name = "noteRemoteDao") { NoteRemoteDao(get(), get()) as NotesRemoteDatasource}
 
     single {
         Room.databaseBuilder(

@@ -15,5 +15,9 @@ class NotesUserManager {
         }
     }
 
-    private fun parseFirebaseUser(firebaseUser: FirebaseUser) : NotesUser = NotesUser(firebaseUser.displayName)
+    private fun parseFirebaseUser(firebaseUser: FirebaseUser): NotesUser = NotesUser(
+        firebaseUser.uid,
+        firebaseUser.displayName,
+        firebaseUser.email
+    )
 }
