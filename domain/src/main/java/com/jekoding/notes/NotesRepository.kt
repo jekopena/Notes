@@ -11,7 +11,7 @@ class NotesRepository(
     fun saveNote(note: Note): Result<Long> {
         return try {
             val noteId = notesDatasource.insert(note)
-            val noteWithId  = note.copy(id = noteId)
+            val noteWithId = note.copy(id = noteId)
             notesRemoteDatasource.saveNote(noteWithId)
 
             Result.success(noteId)
@@ -31,5 +31,9 @@ class NotesRepository(
         }, {
             loadNotesUCCallback.onFailure(it)
         }))
+    }
+
+    fun clearNotes() {
+        notesDatasource.deleteAll()
     }
 }

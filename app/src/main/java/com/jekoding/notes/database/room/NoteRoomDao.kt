@@ -14,4 +14,7 @@ interface NoteRoomDao : BaseDao<NoteEntity> {
 
     @Query("SELECT * FROM noteentity WHERE title LIKE :title")
     fun findByName(title: String): LiveData<List<NoteEntity>>
+
+    @Query("DELETE FROM noteentity")
+    fun deleteAllNotes()
 }

@@ -42,7 +42,6 @@ class EditNoteFragment : Fragment() {
             it.getContentIfNotHandled()?.let { throwable ->
                 activity?.application?.toast("${throwable.message}")
             }
-
         })
 
         viewModel.navigateBack.observe(this, Observer {

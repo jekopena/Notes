@@ -5,9 +5,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.jekoding.notes.NotesRemoteDatasource
+import com.jekoding.notes.UserManager
 import com.jekoding.notes.core.RemoteCallback
 import com.jekoding.notes.exceptions.LoginRequiredException
-import com.jekoding.notes.framework.NotesUserManager
 import com.jekoding.notes.models.Note
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -15,12 +15,12 @@ import java.io.IOException
 
 class NoteRemoteDao(
     private val remoteDatabase: FirebaseDatabase,
-    private val notesUserManager: NotesUserManager
+    private val userManager: UserManager
 ) : NotesRemoteDatasource {
     private val notesRef = "notes"
 
     override fun saveNote(note: Note) {
-        val userUid = notesUserManager.getCurrentUser()?.uid
+        val userUid = userManager.getCurrentUser()?.uid
         if (userUid != null) {
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
             val key = databaseReference.push().key ?: throw IOException()
@@ -31,7 +31,7 @@ class NoteRemoteDao(
     }
 
     override fun getAllNotes(remoteCallback: RemoteCallback<List<Note>>) {
-        val userUid = notesUserManager.getCurrentUser()?.uid
+        val userUid = userManager.getCurrentUser()?.uid
         if (userUid != null) {
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
             databaseReference

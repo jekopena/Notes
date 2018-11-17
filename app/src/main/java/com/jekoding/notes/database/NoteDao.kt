@@ -18,4 +18,7 @@ class NoteDao(private val appDatabase: AppDatabase) : NotesDatasource {
         appDatabase.noteRoomDao().delete(NoteEntity.from(note))
     }
 
+    override fun deleteAll() {
+        appDatabase.noteRoomDao().deleteAllNotes()
+    }
 }

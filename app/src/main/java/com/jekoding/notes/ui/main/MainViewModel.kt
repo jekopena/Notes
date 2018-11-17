@@ -2,15 +2,22 @@ package com.jekoding.notes.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jekoding.notes.UserManager
+import com.jekoding.notes.core.UseCase
 import com.jekoding.notes.framework.Event
-import com.jekoding.notes.framework.NotesUserManager
+import com.jekoding.notes.usecases.SignOut
 
-class MainViewModel(private val notesUserManager: NotesUserManager,
-                    private val resultOkValue: Int) : ViewModel() {
-    val startLogin = MutableLiveData<Event<Boolean>>()
+class MainViewModel(
+    private val userManager: UserManager,
+    private val resultOkValue: Int,
+    private val signoutUC: SignOut
+) : ViewModel() {
+    val startLoginUI = MutableLiveData<Event<Boolean>>()
     val startAppAsLoggedIn = MutableLiveData<Event<Boolean>>()
     val showLoginRequiredAlert = MutableLiveData<Boolean>()
     val showLoginErrorAlert = MutableLiveData<String>()
+    val failure = MutableLiveData<Event<Throwable>>()
+    val removeFragments = MutableLiveData<Event<Boolean>>()
 
     fun onCreate(firstTime: Boolean) {
         if (firstTime) {
@@ -20,9 +27,9 @@ class MainViewModel(private val notesUserManager: NotesUserManager,
 
     fun startLoginIfNeeded() {
         closeLoginAlerts()
-        val user = notesUserManager.getCurrentUser()
+        val user = userManager.getCurrentUser()
         if (user == null) {
-            startLogin.value = Event(true)
+            startLoginUI.value = Event(true)
         } else {
             startAppAsLoggedIn.value = Event(true)
         }
@@ -36,6 +43,18 @@ class MainViewModel(private val notesUserManager: NotesUserManager,
                 showLoginRequiredAlert.value = true
             } else {
                 showLoginErrorAlert.value = errorMessage
+            }
+        }
+    }
+
+    fun signout() {
+        signoutUC(UseCase.None()) { result ->
+            result.onFailure { error ->
+                failure.value = Event(error)
+            }
+            result.onSuccess {
+                removeFragments.value = Event(true)
+                startLoginIfNeeded()
             }
         }
     }

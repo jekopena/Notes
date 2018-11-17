@@ -9,4 +9,5 @@ interface NotesDatasource {
 
     fun delete(note: Note)
 
+    fun deleteAll()
 }

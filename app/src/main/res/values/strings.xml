@@ -14,4 +14,5 @@
     <string name="login_error_title">Login error</string>
     <string name="login_required_title">Login required</string>
     <string name="login_required_message">You have to log in to use the app</string>
+    <string name="sign_out_menu">Sign out</string>
 </resources>

@@ -6,6 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.jekoding.notes.NotesDatasource
 import com.jekoding.notes.NotesRemoteDatasource
 import com.jekoding.notes.NotesRepository
+import com.jekoding.notes.UserManager
 import com.jekoding.notes.database.NoteDao
 import com.jekoding.notes.database.NoteRemoteDao
 import com.jekoding.notes.database.room.AppDatabase
@@ -15,6 +16,7 @@ import com.jekoding.notes.ui.main.MainViewModel
 import com.jekoding.notes.ui.noteslist.NotesListViewModel
 import com.jekoding.notes.usecases.LoadNotes
 import com.jekoding.notes.usecases.SaveNote
+import com.jekoding.notes.usecases.SignOut
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -27,7 +29,7 @@ val appModule = module {
 
     single(name = "noteDao") { NoteDao(get()) as NotesDatasource }
 
-    single(name = "noteRemoteDao") { NoteRemoteDao(get(), get()) as NotesRemoteDatasource}
+    single(name = "noteRemoteDao") { NoteRemoteDao(get(), get()) as NotesRemoteDatasource }
 
     single {
         Room.databaseBuilder(
@@ -37,13 +39,15 @@ val appModule = module {
         ).build()
     }
 
-    single { NotesUserManager() }
+    single { NotesUserManager() as UserManager }
 
     single { SaveNote(get()) }
 
-    single { LoadNotes(get())}
+    single { LoadNotes(get()) }
 
-    viewModel { MainViewModel(get(), Activity.RESULT_OK) }
+    single { SignOut(get(), get()) }
+
+    viewModel { MainViewModel(get(), Activity.RESULT_OK, get()) }
 
     viewModel { NotesListViewModel(get(), get()) }
 
