@@ -1,6 +1,5 @@
 package com.jekoding.notes.ui.main
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.jekoding.notes.R
+import kotlinx.android.synthetic.main.main_activity.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.yesButton
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         setupViewModel()
 
