@@ -66,7 +66,7 @@ class NotesListFragment : Fragment() {
         })
 
         viewModel.progressBarVisibility.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { swipeContainer.isRefreshing = it }
+            swipeContainer.isRefreshing = it
         })
     }
 
