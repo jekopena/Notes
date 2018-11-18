@@ -34,7 +34,8 @@ my daily job. Here is a list of what I intend to cover:
 - [ ] Upload photo
 - [ ] Notifications
 - [ ] Google Maps
-- [ ] ActionBar Menus
+- [x] ActionBar Menus
+- [x] SVG icons
 - [ ] Localization
 - [ ] Proguard
 
