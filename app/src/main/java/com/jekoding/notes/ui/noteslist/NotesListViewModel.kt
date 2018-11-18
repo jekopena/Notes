@@ -16,8 +16,8 @@ class NotesListViewModel(
     appDatabase: AppDatabase,
     private val loadNotesUC: LoadNotes
 ) : ViewModel() {
+    var progressBarVisibility = MutableLiveData<Event<Boolean>>()
     val failure = MutableLiveData<Event<Throwable>>()
-
     private var notes: LiveData<List<NoteEntity>> = appDatabase.noteRoomDao().getAllNotes()
     val noteViews: LiveData<List<NoteView>> =
         Transformations.map(notes) { NoteView.from(NoteEntity.parseToNotes(it)) }
@@ -28,14 +28,15 @@ class NotesListViewModel(
     }
 
     fun loadNotes() {
+        progressBarVisibility.value = Event(true)
         loadNotesUC(object : UseCaseCallback<List<Note>> {
             override fun onSuccess(result: List<Note>) {
+                progressBarVisibility.postValue(Event(false))
             }
 
             override fun onFailure(error: Throwable) {
                 failure.postValue(Event(error))
             }
-
         })
     }
 }

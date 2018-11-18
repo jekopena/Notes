@@ -25,6 +25,7 @@ my daily job. Here is a list of what I intend to cover:
 ## Animations & Design
 - [x] ConstraintLayout
     - [x] Barriers
+- [x] SwipeRefreshLayout
 - [ ] MotionLayout
 - [ ] Transaction animations
 - [ ] Material Design

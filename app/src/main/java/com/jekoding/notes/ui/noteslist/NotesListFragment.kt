@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +16,7 @@ import kotlinx.android.synthetic.main.notes_list_fragment.*
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class NotesListFragment : Fragment() {
 
     private val viewModel: NotesListViewModel by viewModel()
@@ -26,10 +26,6 @@ class NotesListFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setupViewModel()
-
-        if (savedInstanceState == null) {
-            viewModel.loadNotes()
-        }
     }
 
     override fun onCreateView(
@@ -46,6 +42,10 @@ class NotesListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         initLayoutResources()
+
+        if (savedInstanceState == null) {
+            viewModel.loadNotes()
+        }
     }
 
     private fun setupViewModel() {
@@ -64,14 +64,26 @@ class NotesListFragment : Fragment() {
                 findNavController().navigate(R.id.action_notesListFragment_to_editNoteFragment)
             }
         })
+
+        viewModel.progressBarVisibility.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { swipeContainer.isRefreshing = it }
+        })
     }
 
     private fun initLayoutResources() {
+        initRecyclerView()
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun initRecyclerView() {
         rvNotesList.setHasFixedSize(true)
         rvNotesList.layoutManager = LinearLayoutManager(activity)
         rvNotesList.adapter = listAdapter
 
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        swipeContainer.setOnRefreshListener {
+            viewModel.loadNotes()
+        }
+        swipeContainer.setColorSchemeResources(R.color.colorAccent)
     }
 
     private fun onClickList(noteView: NoteView) {
