@@ -35,6 +35,7 @@ class NotesListViewModel(
             }
 
             override fun onFailure(error: Throwable) {
+                progressBarVisibility.postValue(false)
                 failure.postValue(Event(error))
             }
         })

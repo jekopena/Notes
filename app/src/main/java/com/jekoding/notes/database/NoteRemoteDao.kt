@@ -12,12 +12,15 @@ import com.jekoding.notes.models.Note
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.*
+import kotlin.concurrent.schedule
 
 class NoteRemoteDao(
     private val remoteDatabase: FirebaseDatabase,
     private val userManager: UserManager
 ) : NotesRemoteDatasource {
     private val notesRef = "notes"
+    private val timeout = 10000L
 
     override fun saveNote(note: Note): String {
         val userUid = userManager.getCurrentUser()?.uid
@@ -39,20 +42,29 @@ class NoteRemoteDao(
         val userUid = userManager.getCurrentUser()?.uid
         if (userUid != null) {
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
-            databaseReference
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val notes = arrayListOf<Note>()
-                        dataSnapshot.children.mapNotNullTo(notes) {
-                            it.getValue(Note::class.java)
-                        }
-                        GlobalScope.launch { remoteCallback.onSuccess(notes) }
+            val timeoutTimer = Timer()
+            val dataFetchEventListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val notes = arrayListOf<Note>()
+                    dataSnapshot.children.mapNotNullTo(notes) {
+                        it.getValue(Note::class.java)
                     }
+                    GlobalScope.launch { remoteCallback.onSuccess(notes) }
+                    timeoutTimer.cancel()
+                }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        remoteCallback.onFailure(databaseError.toException())
-                    }
-                })
+                override fun onCancelled(databaseError: DatabaseError) {
+                    remoteCallback.onFailure(databaseError.toException())
+                    timeoutTimer.cancel()
+                }
+            }
+
+            timeoutTimer.schedule(timeout) {
+                databaseReference.removeEventListener(dataFetchEventListener)
+                remoteCallback.onFailure(Throwable("Internet connection timeout"))
+            }
+
+            databaseReference.addListenerForSingleValueEvent(dataFetchEventListener)
         } else {
             throw LoginRequiredException("User has to login to get its Notes.")
         }
