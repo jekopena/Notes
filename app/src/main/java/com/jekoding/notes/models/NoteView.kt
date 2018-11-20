@@ -9,7 +9,8 @@ data class NoteView(
     var photo: String? = null,
     var tag: Tag? = null,
     var isPinned: Boolean = false,
-    var reminder: Date? = null
+    var reminder: Date? = null,
+    var uid: String? = null
 ) {
     init {
 
@@ -27,7 +28,8 @@ data class NoteView(
                 note.photo,
                 note.tag,
                 note.isPinned,
-                note.reminder
+                note.reminder,
+                note.uid
             )
         }
 
@@ -39,7 +41,8 @@ data class NoteView(
                 noteView.photo,
                 noteView.tag,
                 noteView.isPinned,
-                noteView.reminder
+                noteView.reminder,
+                noteView.uid
             )
         }
 

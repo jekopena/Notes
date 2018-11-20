@@ -19,12 +19,17 @@ class NoteRemoteDao(
 ) : NotesRemoteDatasource {
     private val notesRef = "notes"
 
-    override fun saveNote(note: Note) {
+    override fun saveNote(note: Note): String {
         val userUid = userManager.getCurrentUser()?.uid
         if (userUid != null) {
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
-            val key = databaseReference.push().key ?: throw IOException()
-            databaseReference.child(key).setValue(note)
+            val key = if (note.uid == null)
+                databaseReference.push().key ?: throw IOException()
+            else
+                note.uid!!
+
+            databaseReference.child(key).setValue(note.copy(uid = key))
+            return key
         } else {
             throw LoginRequiredException("User has to login to save a Note.")
         }

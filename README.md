@@ -1,4 +1,4 @@
-This is a pet project I'm using to practice all the new stuff that appears in Android world that I can't follow up in
+This is a pet project I'm using to practice all the new stuff that appears in the Android world that I can't follow up in
 my daily job. Here is a list of what I intend to cover:
 
 ## Language

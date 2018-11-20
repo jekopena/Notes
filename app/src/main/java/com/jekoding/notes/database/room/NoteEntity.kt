@@ -22,7 +22,9 @@ data class NoteEntity(
     @ColumnInfo
     val isPinned: Boolean,
     @ColumnInfo
-    val reminder: Date?
+    val reminder: Date?,
+    @ColumnInfo
+    val uid: String?
 ) {
     companion object {
         fun from(note: Note): NoteEntity {
@@ -33,7 +35,8 @@ data class NoteEntity(
                 note.photo,
                 note.tag?.value,
                 note.isPinned,
-                note.reminder
+                note.reminder,
+                note.uid
             )
         }
 
@@ -45,7 +48,8 @@ data class NoteEntity(
                 noteEntity.photo,
                 if (noteEntity.tag == null) null else Tag(noteEntity.tag),
                 noteEntity.isPinned,
-                noteEntity.reminder
+                noteEntity.reminder,
+                noteEntity.uid
             )
         }
 

@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NotesListFragment : Fragment() {
 
     private val viewModel: NotesListViewModel by viewModel()
-    private val listAdapter = NotesListAdapter { onClickList(it) }
+    private val listAdapter = NotesListAdapter { navigateToEditNote(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class NotesListFragment : Fragment() {
 
         viewModel.navigateToAddNote.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                findNavController().navigate(R.id.action_notesListFragment_to_editNoteFragment)
+                navigateToEditNote(null)
             }
         })
 
@@ -86,7 +86,9 @@ class NotesListFragment : Fragment() {
         swipeContainer.setColorSchemeResources(R.color.colorAccent)
     }
 
-    private fun onClickList(noteView: NoteView) {
-        activity?.application?.toast("click ${noteView.title}")
+    private fun navigateToEditNote(noteView: NoteView?) {
+        val action = NotesListFragmentDirections.actionNotesListFragmentToEditNoteFragment()
+        action.setNoteViewId(if (noteView == null) 0 else noteView.id!!.toInt())
+        findNavController().navigate(action)
     }
 }

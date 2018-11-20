@@ -20,6 +20,10 @@ class EditNoteFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         setupViewModel()
+        
+        if (savedInstanceState == null){
+            viewModel.loadNoteView(EditNoteFragmentArgs.fromBundle(arguments).noteViewId.toLong())
+        }
     }
 
     override fun onCreateView(

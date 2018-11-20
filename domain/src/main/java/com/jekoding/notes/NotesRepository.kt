@@ -12,7 +12,11 @@ class NotesRepository(
         return try {
             val noteId = notesDatasource.insert(note)
             val noteWithId = note.copy(id = noteId)
-            notesRemoteDatasource.saveNote(noteWithId)
+
+            val uid = notesRemoteDatasource.saveNote(noteWithId)
+            if (noteWithId.uid == null) {
+                notesDatasource.insert(noteWithId.copy(uid = uid))
+            }
 
             Result.success(noteId)
         } catch (e: Exception) {

@@ -51,5 +51,5 @@ val appModule = module {
 
     viewModel { NotesListViewModel(get(), get()) }
 
-    viewModel { EditNoteViewModel(get()) }
+    viewModel { EditNoteViewModel(get(), get()) }
 }

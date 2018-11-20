@@ -9,5 +9,6 @@ data class Note(
     val photo: String? = null,
     val tag: Tag? = null,
     val isPinned: Boolean = false,
-    val reminder: Date? = null
+    val reminder: Date? = null,
+    val uid: String? = null
 )
