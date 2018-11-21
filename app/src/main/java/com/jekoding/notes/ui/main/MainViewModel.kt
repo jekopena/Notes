@@ -27,11 +27,10 @@ class MainViewModel(
 
     fun startLoginIfNeeded() {
         closeLoginAlerts()
-        val user = userManager.getCurrentUser()
-        if (user == null) {
-            startLoginUI.value = Event(true)
-        } else {
+        userManager.getCurrentUser()?.let {
             startAppAsLoggedIn.value = Event(true)
+        } ?: kotlin.run {
+            startLoginUI.value = Event(true)
         }
     }
 
@@ -39,10 +38,10 @@ class MainViewModel(
         if (resultCode == resultOkValue) {
             startAppAsLoggedIn.value = Event(true)
         } else {
-            if (errorMessage == null) {
+            errorMessage?.let {
+                showLoginErrorAlert.value = it
+            } ?: kotlin.run {
                 showLoginRequiredAlert.value = true
-            } else {
-                showLoginErrorAlert.value = errorMessage
             }
         }
     }

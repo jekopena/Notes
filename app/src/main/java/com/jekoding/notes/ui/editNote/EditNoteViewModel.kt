@@ -24,24 +24,27 @@ class EditNoteViewModel(
         } else {
             noteView =
                     Transformations.map(appDatabase.noteRoomDao().getNoteById(noteViewId)) { noteEntity ->
-                        if (noteEntity != null) {
+                        noteEntity?.let {
                             NoteView.from(NoteEntity.parseToNote(noteEntity))
-                        } else {
-                            failure.value = Event(Throwable("Note not found"))
-                            navigateBack.value = Event(true)
-                            NoteView()
                         }
+                            ?: kotlin.run {
+                                failure.value = Event(Throwable("Note not found"))
+                                navigateBack.value = Event(true)
+                                NoteView()
+                            }
                     }
         }
     }
 
     fun saveNote() {
-        saveNoteUC(NoteView.parseToNote(noteView!!.value!!)) { result ->
-            result.onFailure { error ->
-                failure.value = Event(error)
-            }
-            result.onSuccess {
-                navigateBack.value = Event(true)
+        noteView?.value?.let {
+            saveNoteUC(NoteView.parseToNote(it)) { result ->
+                result.onFailure { error ->
+                    failure.value = Event(error)
+                }
+                result.onSuccess {
+                    navigateBack.value = Event(true)
+                }
             }
         }
     }

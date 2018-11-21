@@ -85,9 +85,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.showLoginErrorAlert.observe(this, Observer { message ->
-            if (message != null) {
-                showLoginAlert(message, getString(R.string.login_error_title))
-            }
+            message?.let { showLoginAlert(it, getString(R.string.login_error_title)) }
         })
 
         viewModel.failure.observe(this, Observer {
@@ -126,10 +124,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun removeFragments() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.root_container)
-        if (fragment != null) {
+        supportFragmentManager.findFragmentById(R.id.root_container)?.let {
             supportFragmentManager.beginTransaction()
-                .remove(fragment)
+                .remove(it)
                 .commit()
         }
     }

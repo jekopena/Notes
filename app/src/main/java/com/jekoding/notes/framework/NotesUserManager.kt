@@ -6,19 +6,11 @@ import com.jekoding.notes.UserManager
 import com.jekoding.notes.models.NotesUser
 
 class NotesUserManager : UserManager {
-    override fun getCurrentUser(): NotesUser? {
-        val firebaseUser = FirebaseAuth.getInstance().currentUser
+    override fun getCurrentUser(): NotesUser? =
+        FirebaseAuth.getInstance().currentUser?.let { parseFirebaseUser(it) }
 
-        return if (firebaseUser == null) {
-            null
-        } else {
-            parseFirebaseUser(firebaseUser)
-        }
-    }
 
-    override fun signout() {
-        FirebaseAuth.getInstance().signOut()
-    }
+    override fun signout() = FirebaseAuth.getInstance().signOut()
 
     private fun parseFirebaseUser(firebaseUser: FirebaseUser): NotesUser = NotesUser(
         firebaseUser.uid,

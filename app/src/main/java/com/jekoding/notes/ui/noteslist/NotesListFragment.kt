@@ -88,7 +88,7 @@ class NotesListFragment : Fragment() {
 
     private fun navigateToEditNote(noteView: NoteView?) {
         val action = NotesListFragmentDirections.actionNotesListFragmentToEditNoteFragment()
-        action.setNoteViewId(if (noteView == null) 0 else noteView.id!!.toInt())
+        action.setNoteViewId(noteView?.id?.toInt() ?: 0)
         findNavController().navigate(action)
     }
 }

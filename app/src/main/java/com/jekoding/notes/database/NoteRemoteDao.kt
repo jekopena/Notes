@@ -23,24 +23,17 @@ class NoteRemoteDao(
     private val timeout = 10000L
 
     override fun saveNote(note: Note): String {
-        val userUid = userManager.getCurrentUser()?.uid
-        if (userUid != null) {
+        userManager.getCurrentUser()?.uid?.let { userUid ->
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
-            val key = if (note.uid == null)
-                databaseReference.push().key ?: throw IOException()
-            else
-                note.uid!!
+            val key = note.uid?.let { it } ?: databaseReference.push().key ?: throw IOException()
 
             databaseReference.child(key).setValue(note.copy(uid = key))
             return key
-        } else {
-            throw LoginRequiredException("User has to login to save a Note.")
-        }
+        } ?: throw LoginRequiredException("User has to login to save a Note.")
     }
 
     override fun getAllNotes(remoteCallback: RemoteCallback<List<Note>>) {
-        val userUid = userManager.getCurrentUser()?.uid
-        if (userUid != null) {
+        userManager.getCurrentUser()?.uid?.let { userUid ->
             val databaseReference = remoteDatabase.getReference(notesRef).child(userUid)
             val timeoutTimer = Timer()
             val dataFetchEventListener = object : ValueEventListener {
@@ -65,9 +58,6 @@ class NoteRemoteDao(
             }
 
             databaseReference.addListenerForSingleValueEvent(dataFetchEventListener)
-        } else {
-            throw LoginRequiredException("User has to login to get its Notes.")
-        }
+        } ?: throw LoginRequiredException("User has to login to get its Notes.")
     }
-
 }

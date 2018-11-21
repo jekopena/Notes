@@ -46,7 +46,7 @@ data class NoteEntity(
                 noteEntity.title,
                 noteEntity.text,
                 noteEntity.photo,
-                if (noteEntity.tag == null) null else Tag(noteEntity.tag),
+                noteEntity.tag?.let { Tag(noteEntity.tag) },
                 noteEntity.isPinned,
                 noteEntity.reminder,
                 noteEntity.uid
